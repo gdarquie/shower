@@ -1,42 +1,50 @@
-$('body').html('hello');
+(function(window, $){
 
-var ShowerApp = new Object;
+window.ShowerApp = {
 
-ShowerApp.init = function(){
-  console.log('Shower App lancée');
-  //traitement = chargement des éléments de la page
-  this.getContentByUri('/texte/essai.json');
+  init: function(){
+    console.log('Shower App lancée');
+    //traitement = chargement des éléments de la page
+    var content = this.getContentByUri('/texte/essai.json');
+  },
 
+  getContentByUri: function(uri, data){
+    console.log("Chargement du contenu par l'uri ="+uri);
+
+    //chargement asyncrhone du contenu d'un fragment
+    $.ajax({
+      url: uri,
+      data: data,
+      dataType: "json"
+    })
+    .done(function( data ) {
+      var content = data.content;
+      window.ShowerApp.loadIO(content.title+content.text);
+    });
+  },
+
+  validateContent: function(){
+    console.log("Validation du contenu");
+  },
+
+  loadIO: function(io){
+    console.log('Load IO');
+    $('body').html(io);
+    //lancement du module principale
+  }
 }
-
-ShowerApp.getContentByUri = function(uri){
-  console.log("Chargement du contenu par l'uri ="+uri);
-  //charger le contenu d'uri
-  var content = "Chargement du contenu";
-  return content;
-
-}
-
-ShowerApp.validateContent = function(){
-  console.log("Validation du contenu");
-}
-
-ShowerApp.loadIO = function($io){
-  //lancement du module principale
-}
-
-ShowerApp.init();
-
-showerApp.fragments= [];
+// showerApp.fragments= [];
 //les fragments ont-ils déj été lus ou joués
 //fragment : title, contenu, options
 
 
 // console.log(window);
+})(window, jQuery);
 
-$(window).load(function(){
-  console.log('hello');
+$(window).ready(function() {
+  ShowerApp.init();
 });
+
 
 //ShowerApp est une fonction qui sert à afficher les contenus d'une page dynamiquement.
 // Elle récupère une adresse et va charger le contenu de cette adresse. Ce contenu est li& uen uri.
