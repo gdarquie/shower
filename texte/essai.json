@@ -1,6 +1,6 @@
 {
   "content" : {
-    "title" : "Titre",
-    "text" : "Contenu d'un texte"
+    "titre" : "Titre",
+    "contenu" : "Contenu d'un texte"
     }
 }
