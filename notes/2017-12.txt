@@ -1,0 +1,37 @@
+Notes sur la Conception
+
+Comment afficher les views?
+Je crée une view HTML, je dois ensuite l'appeler en JS. Comment l'appeler?
+Comment ajouter le contenu des variables directement dans le template? Par exemple {{title}}
+
+Pour récupérer les contenus :
+- soit je charge les DOM de mes éléments et les chargent ensuite dans le DOM de mon Application
+- soit je les écrits dans des variables que j'appelle directement?
+
+Peut-on faire des includes HTML via JS?
+
+J'ai un fragment HTML dans view, comment puis-je l'appeler?
+Je peux essayer de le GET, de récupérer son contenu HTML et le mettre dans une variable.
+get(/path)?
+Ou esdt-ce que je peux directement récupérer l'HTML d'un fichier?
+
+Commment est-ce que je peux faire communiquer plusieurs fichiers entre eux?
+Avec node, il y a require. Ici je les appelle via AJAX.
+Je peux les appeler par des scripts.
+
+Mon besoin = pouvoir appeler des views différentes?
+J"'ai besoin de pouvoir lire un fragment de la  bonne manière. Le but est de pouvoir lire un récit interactif complet avec des informations envoyées par l'API.
+
+___
+
+Router
+
+Pour la suite, je dois créer un système de router en JS, sur le modèle play/fragment=id
+Chaque uri pointe un fragment.
+
+Commment le construire?
+Je dois déj trouver un moyen de binder les donnes avec l'url. Utiliser un système me permettant de récupérer le contenu des urls.
+Une fois que j'ai ce contenu, je lui associe une fonction?
+
+Si en Polymer?
+Si en angular? L'occasion de tenter angular? 

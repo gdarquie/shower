@@ -24,58 +24,67 @@ window.ShowerApp = {
       dataType: "json"
     })
     .done(function( data ) {
-      var content = data.content;
-      window.ShowerApp.loadIO(content);
+      console.log("Ajax en cours");
+      var data = data;
+      if(!window.ShowerApp.validateContent(data)){
+        return false;
+      }
+      content = window.ShowerApp.serialize(data);
+      window.ShowerApp.show(data);
     });
   },
 
-  validateContent: function(){
+  validateContent: function(data){
     console.log("Validation du contenu");
     //je vérifie que le format est bien le format attendu
     //j'appelle une fonction de vérification que j'applique à mon objet
-  },
-
-//comment appeler l'objet FragmentIO et ses méthodes ici?
-  loadIO: function(data){
-    console.log("data.contenu = "+data.contenu);
-    //s'il s'agit d'un tableau je r&cupère seulemeent le premier
-    //Todo
-
-    //serializer
-    // Io = FragmentIO(data.text);
-    // console.log(FragmentIO);
-    this.show(data);
-    //lancement du module principale
-
-
-  // this.FragmentIO = {
-  //   var title = this.FragmentIO.title;
-},
-
-  show: function(data){
-    $(".shower_wait").hide();
-    $('body').append('<div class="shower"></div>');
-    $(".shower").hide();
-    var fragment = new FragmentIO(data);
-    $('.shower').append(fragment);
-    $('.shower').fadeIn(1000);
+    return true;
   },
 
   serialize: function(data){
-    var myFragment = FragmentIO.initialize(data);
-    console.log(myFragment.contenu+"serialize");
-  }
+    //console.log("Formatage du texte "+data);
+    console.log(typeof(data));
+    if(data.length > 0){
+      console.log(data.length);
+      var fragments = [];
+      for(i=0 ; i <data.length ; i++){
+        fragments[i] = FragmentIO.constructor(data[i]);
+        console.log(fragments[i]);
+        return fragments;
+      }
+    }
+    else{
+      return data.content;
+    }
+  },
+
+//comment appeler l'objet FragmentIO et ses méthodes ici?
+
+  show: function(data){
+    $('body').append('<div class="shower"></div>');
+    var container = "<div class='fragment'><div class='titre'><h1></h1></div><div class='contenu'><p></p></div></div>";
+    $(".shower_wait").hide();
+    $('.shower').html(container);
+    $(".shower").hide();
+
+    var fragments = this.serialize(data);
+    //console.log(fragments);
+    $('.shower .fragment .titre h1').html(fragments[0].titre);
+    $('.shower .fragment .contenu p').html(fragments[0].contenu);
+    $('.shower').fadeIn(1000);
+  },
 
 }//fin de showerApp
 
-var FragmentIO = {};
+var FragmentIO = {
+  constructor : function($data){
+      this.titre = $data.titre;
+      this.contenu = $data.contenu;
 
-FragmentIO.initialize = function($data){
-    this.titre = $data.titre;
-    this.contenu = $data.contenu;
-
-    return this;
+      return this;
+  }
 };
+
 
 // FragmentIO.prototype.hydrate = function(){
 //   console.log("Hydratation d'un fragment");
@@ -112,7 +121,8 @@ FragmentIO.initialize = function($data){
 // console.log(window);
 })(window, jQuery);
 
-var uri = "http://localhost/play/texte/essai.json";
+// var uri = "http://localhost/play/texte/essai.json";
+var uri = "http://localhost/play/texte/interlivre_api.json"
 
 $(window).ready(function() {
   ShowerApp.start(uri);
